@@ -1,5 +1,12 @@
 <?php 
 
+session_start();
+
+if (!isset($_SESSION['ssLoginRM'])) {
+  header("location: ../otentikasi/index.php");
+  exit();
+}
+
 require "../config.php";
 
 if(isset($_POST['simpan'])) {
@@ -109,6 +116,41 @@ if(isset($_POST['update'])) {
                 window.location = 'index.php';
         </script>";
     return;
+}
+
+// ganti password
+if (isset($_POST['ganti-password'])) {
+    $curPass = trim(htmlspecialchars($_POST['oldPass']));
+    $newPass = trim(htmlspecialchars($_POST['newPass']));
+    $confPass = trim(htmlspecialchars($_POST['confPass']));
+
+    $userLogin = $_SESSION['ssUserRM'];
+    $queryUser = mysqli_query($koneksi, "SELECT * FROM tbl_user WHERE username = '$userLogin'");
+    $dataUser = mysqli_fetch_assoc($queryUser);
+
+    if ($newPass !== $confPass) {
+        echo "<script>
+                alert('Password gagal diperbarui, Komfirmasi password tidak sama.. ');
+                window.location = '../otentikasi/password.php';
+        </script>";
+        return false;
+    }
+
+    if (!password_verify($curPass, $dataUser['password'])) {
+        echo "<script>
+                alert('Password gagal diperbarui, Password lama tidak cocok.. ');
+                window.location = '../otentikasi/password.php';
+        </script>";
+        return false;
+    }else {
+        $pass = password_hash($newPass, PASSWORD_DEFAULT);
+        mysqli_query($koneksi, "UPDATE tbl_user SET password = '$pass' WHERE username = '$userLogin'");
+        echo "<script>
+                alert('Password berhasil diubah ');
+                window.location = '../otentikasi/password.php';
+        </script>";
+        return true;
+    }
 }
 
 ?>

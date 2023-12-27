@@ -17,6 +17,9 @@
 
 <link href="<?= $main_url ?>asset/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- css datatable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;

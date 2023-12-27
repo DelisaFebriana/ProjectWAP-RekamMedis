@@ -1,5 +1,12 @@
 <?php 
 
+session_start();
+
+if (!isset($_SESSION['ssLoginRM'])) {
+  header("location: ../otentikasi/index.php");
+  exit();
+}
+
 require "../config.php";
 
 $title = "Edit User - Rekam Medis";

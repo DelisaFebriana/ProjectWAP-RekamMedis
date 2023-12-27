@@ -49,4 +49,12 @@ function uploadGbr($url){
 
 }
 
+function in_date($tgl){
+    $dd = substr($tgl, 8, 2);
+    $mm = substr($tgl, 5, 2);
+    $yy = substr($tgl, 0, 4);
+
+    return $dd . "-" . $mm . "-" . $yy;
+}
+
 ?>
